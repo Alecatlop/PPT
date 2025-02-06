@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManage : MonoBehaviour
 {
     string[] arrayboton;
     int contadorboton;
-    int contadorcolor;
     GameObject rojoia;
     GameObject azulia;
     GameObject verdeia;
     GameObject amarilloia;
-    bool seguir = true;
+    GameObject coloria;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +21,13 @@ public class GameManage : MonoBehaviour
         azulia = GameObject.Find("azulia");
         verdeia = GameObject.Find("verdeia");
         amarilloia = GameObject.Find("amarilloia");
+        coloria = GameObject.Find("Textocolor");
 
         rojoia.SetActive(false);
         azulia.SetActive(false);
         verdeia.SetActive(false);
         amarilloia.SetActive(false);
+        coloria.SetActive(false);
     }
 
     // Update is called once per frame
@@ -64,70 +66,46 @@ public class GameManage : MonoBehaviour
 
     public void Terminar()
     {
-        for (int a = 0; a < contadorboton; a++)
-        {
-            if (arrayboton[a] == "rojo" && seguir == true)
-            {
-                contadorcolor = 1;
-                seguir = false;
-            }
-            else if (arrayboton[a] == "azul" && seguir == true)
-            {
-                contadorcolor = 2;
-                seguir = false;
-            }
-            else if (arrayboton[a] == "verde" && seguir == true)
-            {
-                contadorcolor = 3;
-                seguir = false;
-            }
-            else if (arrayboton[a] == "amarillo" && seguir == true)
-            {
-                contadorcolor = 4;
-                seguir = false;
-            }
-
-            StartCoroutine(Coloria());
-
-        }
-
-        contadorboton = 0;
-        
+        StartCoroutine(Coloria());
     }
 
     IEnumerator Coloria()
     {
 
-        if (contadorcolor == 1)
+        for (int a = 0; a < contadorboton; a++)
         {
-            rojoia.SetActive(true);
-            print("Color: rojo");
-        }
-        else if (contadorcolor == 2)
-        {
-            azulia.SetActive(true);
-            print("Color: azul");
-        }
-        else if (contadorcolor == 3)
-        {
-            verdeia.SetActive(true);
-            print("Color: verde");
-        }
-        else if (contadorcolor == 4)
-        {
-            amarilloia.SetActive(true);
-            print("Color: amarillo");
+            if (arrayboton[a] == "rojo")
+            {
+                rojoia.SetActive(true);
+                coloria.GetComponentInChildren<TextMeshProUGUI>().text = arrayboton[a];
+            }
+            else if (arrayboton[a] == "azul")
+            {
+                azulia.SetActive(true);
+                coloria.GetComponentInChildren<TextMeshProUGUI>().text = arrayboton[a];
+            }
+            else if (arrayboton[a] == "verde")
+            {
+                verdeia.SetActive(true);
+                coloria.GetComponentInChildren<TextMeshProUGUI>().text = arrayboton[a];
+            }
+            else if (arrayboton[a] == "amarillo")
+            {
+                amarilloia.SetActive(true);
+                coloria.GetComponentInChildren<TextMeshProUGUI>().text = arrayboton[a];
+
+            }
+
+            coloria.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+
+            rojoia.SetActive(false);
+            azulia.SetActive(false);
+            verdeia.SetActive(false);
+            amarilloia.SetActive(false);
+            coloria.SetActive(false);
         }
 
-        yield return new WaitForSeconds(0.5f);
-
-        seguir = true;
-
-        rojoia.SetActive(false);
-        azulia.SetActive(false);
-        verdeia.SetActive(false);
-        amarilloia.SetActive(false);
-
-        
+        contadorboton = 0;
     }
 }
